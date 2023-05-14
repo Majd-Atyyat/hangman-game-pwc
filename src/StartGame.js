@@ -1,21 +1,33 @@
-import React from 'react';
+import React, { useState } from "react";
 
-const SelectWordLength = ({ onSelectWordLength }) => {
+function StartGame({ startGame }) {
+  const [wordLength, setWordLength] = useState(5);
+
   const handleWordLengthChange = (event) => {
-    const newWordLength = event.target.value;
-    onSelectWordLength(newWordLength);
+    setWordLength(parseInt(event.target.value));
+  };
+
+  const handleStartGameClick = () => {
+    startGame(wordLength);
   };
 
   return (
     <div>
-      <label htmlFor="word-length">Word length:</label>
-      <select id="word-length" onChange={handleWordLengthChange}>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
+      <h1>Hangman Game</h1>
+      <label htmlFor="word-length-select">Choose word length:</label>
+      <select
+        id="word-length-select"
+        value={wordLength}
+        onChange={handleWordLengthChange}
+      >
+        <option value="4">4 letters</option>
+        <option value="5">5 letters</option>
+        <option value="6">6 letters</option>
+        <option value="7">7 letters</option>
       </select>
+      <button onClick={handleStartGameClick}>Start Game</button>
     </div>
   );
-};
+}
 
-export default SelectWordLength;
+export default StartGame;
