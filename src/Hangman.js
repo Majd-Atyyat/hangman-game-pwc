@@ -51,7 +51,7 @@ const Hangman = () => {
   useEffect(() => {
     // Fetch words from Datamuse API
     axios
-      .get(`https://api.datamuse.com/words?sp=${'*'.repeat(wordLength)}&max=100`)
+      .get(`https://api.datamuse.com/words?sp=${'?'.repeat(wordLength)}&max=100`)
       .then((response) => {
         // Select a random word from the response
         const randomIndex = Math.floor(Math.random() * response.data.length);
