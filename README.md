@@ -24,3 +24,5 @@ Frontend components and styles are inspired by various Hangman game implementati
 <img width="960" alt="login" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/22c4d4d3-429c-4600-9f10-af9ea2529b2e">
 <img width="960" alt="registerPNG" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/4c8fbcce-50f4-4856-92b4-da75adc27925">
 <img width="960" alt="startgame" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/7ac3d16d-f578-4ade-9656-b4c4149ae0f7">
+<img width="960" alt="losegame" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/df174260-d424-45ce-905e-001125349af4">
+
