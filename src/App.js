@@ -1,19 +1,24 @@
+import "./App.css";
+import Login from "./Login";
+import Register from "./Register";
+import { Routes, Route } from "react-router-dom";
+import Hangman from "./Hangman";
+import StartGame from "./StartGame"; 
+import React, { useState } from 'react';
 
-import './App.css';
-
-import Login from './Login';
-import Register from './Register';
 function App() {
+  const [login, setLogin] = useState(false);
   return (
-    <div className="App">
-     
-     <div>
-      <h1>Hangman game </h1>
-      <h5>login to play </h5>
-      <Login />
-      <Register />
-    </div>
-    </div>
+    <Routes>
+      <Route
+        path="/"
+        element={login ? <StartGame /> : <Login setLogin={setLogin} />}
+      />
+  <Route path="/game/:wordLength" element={<Hangman />} />
+
+      <Route path="/register" element={<Register />} />
+      <Route path="/start" element={<StartGame />} /> 
+    </Routes>
   );
 }
 

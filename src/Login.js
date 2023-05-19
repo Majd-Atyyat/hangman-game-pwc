@@ -1,45 +1,81 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import "./login.css"
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 
-const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [login, setLogin] = useState(false);
+  const styles = {
+    marginTop: '20px'
+    
+  };
+  const white = {
+    color: 'white'
+    
+  };
+  
+  const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    try {
-      // Send login request to the server
-      const response = await axios.post('http://localhost:5000/login', {
-        username,
+    const configuration = {
+      method: "post",
+      url: "http://localhost:5000/login",
+      data: {
+        email,
         password,
+      },
+    };
+
+    axios(configuration)
+      .then((result) => {
+        setLogin(true);
+        // Redirect to the game page
+        navigate("/start");
+      })
+      .catch((error) => {
+        error = new Error();
       });
-      console.log(response.data); // Handle successful login
-    } catch (error) {
-      console.error(error.response.data); // Handle error
-    }
   };
 
   return (
     <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+      {/* display success message */}
+      {login ? (
+      <p style={white}>You Are Logged in Successfully</p>
+      ) : (
+        <p style={white}>You Are Not Logged in</p>
+      )}
+      <form onSubmit={handleSubmit}>
+        <h3>Login Here</h3>
+        
+        <label htmlFor="username">Email</label>
         <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          type="email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter email"
         />
+        <label htmlFor="password">Password</label>
         <input
           type="password"
-          placeholder="Password"
+          name="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
         />
-        <button type="submit">Login</button>
+        <button type="submit">Log In</button>
+        <p style={styles}>
+          Don't have an account yet?{" "}
+          <Link to="/register">Register here</Link>
+        </p>
       </form>
     </div>
   );
-};
+}
 
 export default Login;

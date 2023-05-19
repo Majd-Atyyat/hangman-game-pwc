@@ -1,45 +1,73 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 
-const Register = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleRegister = async (e) => {
+export default function Register() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [register, setRegister] = useState(false);
+  const styles = {
+    marginTop: '20px'
+    
+  };
+  const white = {
+    color: 'white'
+    
+  };
+  
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    try {
-      // Send registration request to the server
-      const response = await axios.post('http://localhost:5000/register', {
-        username,
+   
+    const configuration = {
+      method: "post",
+      url: "http://localhost:5000/register",
+      data: {
+        email,
         password,
+      },
+    };
+    
+    axios(configuration)
+      .then((result) => {
+        setRegister(true);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-      console.log(response.data); // Handle successful registration
-    } catch (error) {
-      console.error(error.response.data); // Handle error
-    }
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleRegister}>
+    <>
+      
+      {register ? (
+        <p style={white}>You Are Registered Successfully</p>
+      ) : (
+        <p style={white}>You Are Not Registered</p>
+      )}
+      <form onSubmit={handleSubmit}>
+        <h3>Register Here</h3>
+        <label htmlFor="username">Email</label>
         <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+         type="email"
+         name="email"
+         value={email}
+         onChange={(e) => setEmail(e.target.value)}
+         placeholder="Enter email"
         />
+        <label htmlFor="password">Password</label>
         <input
           type="password"
-          placeholder="Password"
+          name="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
         />
         <button type="submit">Register</button>
+        <p style={styles}>
+          You already have an account? {" "}
+          <Link to="/">Login here</Link>
+        </p>
       </form>
-    </div>
+    </>
   );
-};
-
-export default Register;
+}
