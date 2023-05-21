@@ -1,20 +1,13 @@
 {
   "files": {
-    "main.css": "/hangman-game-pwc/static/css/main.2722109c.css",
-    "main.js": "/hangman-game-pwc/static/js/main.910abec3.js",
-    "static/media/6.jpg": "/hangman-game-pwc/static/media/6.33ea70122206d18555de.jpg",
-    "static/media/5.jpg": "/hangman-game-pwc/static/media/5.bb0f0ce1c8b6c8fe0e79.jpg",
-    "static/media/4.jpg": "/hangman-game-pwc/static/media/4.b272e7f1b6733f1c232f.jpg",
-    "static/media/3.jpg": "/hangman-game-pwc/static/media/3.0db4986f22eed20b43f5.jpg",
-    "static/media/2.jpg": "/hangman-game-pwc/static/media/2.27a86c9e28f3136f0d56.jpg",
-    "static/media/1.jpg": "/hangman-game-pwc/static/media/1.9a23caa6d0d1e6035dd0.jpg",
-    "static/media/0.jpg": "/hangman-game-pwc/static/media/0.72059a7fffc7cf1cf38f.jpg",
+    "main.css": "/hangman-game-pwc/static/css/main.30f07a86.css",
+    "main.js": "/hangman-game-pwc/static/js/main.a153d78e.js",
     "index.html": "/hangman-game-pwc/index.html",
-    "main.2722109c.css.map": "/hangman-game-pwc/static/css/main.2722109c.css.map",
-    "main.910abec3.js.map": "/hangman-game-pwc/static/js/main.910abec3.js.map"
+    "main.30f07a86.css.map": "/hangman-game-pwc/static/css/main.30f07a86.css.map",
+    "main.a153d78e.js.map": "/hangman-game-pwc/static/js/main.a153d78e.js.map"
   },
   "entrypoints": [
-    "static/css/main.2722109c.css",
-    "static/js/main.910abec3.js"
+    "static/css/main.30f07a86.css",
+    "static/js/main.a153d78e.js"
   ]
 }
