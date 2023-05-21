@@ -20,7 +20,7 @@ export default function Register() {
    
     const configuration = {
       method: "post",
-      url: "http://localhost:5000/register",
+      url: "https://hangman-serve-pwc-majd.onrender.com/register",
       data: {
         email,
         password,

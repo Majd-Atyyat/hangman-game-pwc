@@ -23,7 +23,7 @@ function Login() {
 
     const configuration = {
       method: "post",
-      url: "http://localhost:5000/login",
+      url: "https://hangman-serve-pwc-majd.onrender.com/login",
       data: {
         email,
         password,
