@@ -1,18 +1,37 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 
 const StartGame = () => {
   const [wordLength, setWordLength] = useState(5);
   const navigate = useNavigate();
 
-  const handleStartGame = () => {
-    navigate(`/game/${wordLength}`);
+  const handleStartGame = async () => {
+    try {
+      const token = localStorage.getItem('token');
+  
+      const response = await axios.post(
+        'https://hangman-serve-pwc-majd.onrender.com/game',
+        { length: wordLength },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the headers
+          },
+        }
+      );
+  
+      const gameId = response.data.id;
+      navigate(`/game/${gameId}`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <div className="box" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <h1 style={{ color: 'white', marginTop: '20px', background: 'black', padding: '10px' }}>Welcome to Hangman Game</h1>
-      <label htmlFor="word-length" style={{ color: 'white', fontSize: '24px' }}>Please select word length:</label>
+    <div>
+      {/* Display the start game UI */}
+      <label htmlFor="word-length">Please select word length:</label>
       <select
         id="word-length"
         value={wordLength}

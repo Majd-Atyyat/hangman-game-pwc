@@ -10,14 +10,45 @@ import img5 from './images/5.jpg';
 import img6 from './images/6.jpg';
 
 const Hangman = () => {
+  const [gameId, setGameId] = useState(null);
   const [word, setWord] = useState('');
   const [guess, setGuess] = useState('');
   const [guesses, setGuesses] = useState([]);
   const [maxWrongGuesses, setMaxWrongGuesses] = useState(6);
   const [wrongGuesses, setWrongGuesses] = useState(0);
   const [gameOver, setGameOver] = useState(false);
-
   const { wordLength } = useParams();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    // Create a new game and retrieve the game ID
+    axios
+      .post('https://hangman-serve-pwc-majd.onrender.com/game', { length: wordLength }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setGameId(response.data.id);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [wordLength]);
+
+  useEffect(() => {
+    if (gameId) {
+      // Retrieve the word for the current game
+      axios
+        .get(`https://hangman-serve-pwc-majd.onrender.com/games/${gameId}/word`)
+        .then((response) => {
+          setWord(response.data.word);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [gameId]);
 
   const getHangmanImage = () => {
     switch (wrongGuesses) {
@@ -38,18 +69,7 @@ const Hangman = () => {
     }
   };
 
-  useEffect(() => {
-    axios
-      .get(`https://api.datamuse.com/words?sp=${'?'.repeat(wordLength)}&max=100`)
-      .then((response) => {
-        const randomIndex = Math.floor(Math.random() * response.data.length);
-        const randomWord = response.data[randomIndex].word;
-        setWord(randomWord);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [wordLength]);
+
 
   const handleGuess = (event) => {
     const letter = event.target.value.toLowerCase();
@@ -58,17 +78,18 @@ const Hangman = () => {
 
   const handleGuessSubmit = (event) => {
     event.preventDefault();
-    if (guess === '') {
-      alert('Please enter a letter');
-    } else if (guesses.includes(guess)) {
-      alert('You have already guessed that letter');
-    } else {
-      setGuesses([...guesses, guess]);
-      if (!word.includes(guess)) {
-        setWrongGuesses(wrongGuesses + 1);
-      }
-      setGuess('');
-    }
+    // Send the guess to the backend and update the game state
+    axios
+      .post(`https://hangman-serve-pwc-majd.onrender.com/games/${gameId}/guesses`, { guess })
+      .then((response) => {
+        const { guesses, incorrectGuesses, remainingGuesses, status } = response.data;
+        setGuesses(guesses);
+        setWrongGuesses(incorrectGuesses.length);
+        setGameOver(status !== 'in progress');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const resetGame = () => {
@@ -79,6 +100,8 @@ const Hangman = () => {
     setWrongGuesses(0);
     setGameOver(false);
   };
+
+  
 
   useEffect(() => {
     if (wrongGuesses >= maxWrongGuesses) {
@@ -91,11 +114,6 @@ const Hangman = () => {
       setGameOver(true);
     }
   }, [word, guesses]);
-
-  const handleWordLengthChange = (event) => {
-    const newWordLength = parseInt(event.target.value);
-    resetGame();
-  };
 
   return (
     <div className="hangman">

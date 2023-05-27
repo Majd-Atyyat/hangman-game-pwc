@@ -7,6 +7,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, setLogin] = useState(false);
+  const [token, setToken] = useState(""); // State to store the token
   const styles = {
     marginTop: '20px'
     
@@ -31,16 +32,18 @@ function Login() {
     };
 
     axios(configuration)
-      .then((result) => {
-        setLogin(true);
-        // Redirect to the game page
-        navigate("/start");
-      })
-      .catch((error) => {
-        error = new Error();
+    .then((result) => {
+      const token = result.data.token;
+      localStorage.setItem('token', token); // Save token to local storage
+      setToken(token); // Update the token state
+      setLogin(true);
+      console.log(token); //// Print token in the console to test the function 
+      // Redirect to the game page and pass the token as a prop
+      navigate("/start", { state: { token } });
       });
   };
 
+  
   return (
     <div>
       {/* display success message */}
