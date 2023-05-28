@@ -9,6 +9,7 @@ import img4 from './images/4.jpg';
 import img5 from './images/5.jpg';
 import img6 from './images/6.jpg';
 
+
 const Hangman = () => {
   const [game, setGame] = useState(null);
   const [guess, setGuess] = useState('');
@@ -102,7 +103,7 @@ const Hangman = () => {
         </div>
       ) : (
         <div className="hangman-content">
-          {status !== 'won' && ( // Add this condition to hide the hangman image when status is 'won'
+          {status !== 'won' && ( 
             <div className="hangman-image">
               <img src={getHangmanImage()} alt="Hangman" />
             </div>
@@ -110,16 +111,25 @@ const Hangman = () => {
           <div className="hangman-details">
             {status === 'won' ? (
               <div className="game-won">
+                 
                 <p className="centered">You won!</p>
-                <p className="centered">The word was "{word}".</p>
+                
                 
                 <button onClick={resetGame}>Play again</button>
+                <p className="centered">The word was "{word}".</p>
                 <p className="centered">Player-Status: {status}</p>
 
               </div>
             ) : (
               
               <form onSubmit={handleGuessSubmit}>
+                <h1>Hangman</h1>
+                <br />
+            <p>Find the hidden word </p>
+           
+          
+            <br />
+            <p>You have {remainingGuesses} remaining guesses</p>
                 <input type="text" value={guess} onChange={handleGuess} maxLength={1} />
                 <div className="word">
                   {word.split('').map((letter, index) => (
@@ -134,7 +144,7 @@ const Hangman = () => {
                   <h2> {incorrectGuesses.join(', ')}</h2>
                   <br />
                   <br />
-                  <p>-You have {remainingGuesses} remaining guesses.</p>
+                  
                   <br />
                   <p>-Status: {status}</p>
                 </div>
