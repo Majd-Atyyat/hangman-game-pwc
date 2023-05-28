@@ -16,12 +16,15 @@ const StartGame = () => {
         { length: wordLength },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the headers
+            Authorization: `Bearer ${token}`,
           },
         }
       );
   
-      const gameId = response.data.id;
+      console.log(response.data); // log the response object 
+  
+      const gameId = response.data._id;
+      console.log(gameId); //// log the gameid
       navigate(`/game/${gameId}`);
     } catch (error) {
       console.log(error);
