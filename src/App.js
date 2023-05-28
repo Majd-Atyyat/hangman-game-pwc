@@ -14,7 +14,8 @@ function App() {
         path="/"
         element={login ? <StartGame /> : <Login setLogin={setLogin} />}
       />
-  <Route path="/game/:wordLength" element={<Hangman />} />
+  <Route path="/game/:gameId" element={<Hangman />} />
+
 
       <Route path="/register" element={<Register />} />
       <Route path="/start" element={<StartGame />} /> 
