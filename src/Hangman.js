@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import img0 from './images/0.jpg';
 import img1 from './images/1.jpg';
@@ -12,17 +12,17 @@ import img6 from './images/6.jpg';
 const Hangman = () => {
   const [game, setGame] = useState(null);
   const [guess, setGuess] = useState('');
-  const [guesses, setGuesses] = useState([]);
-  const [wrongGuesses, setWrongGuesses] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const { gameId } = useParams();
-
+  const [guesses, setGuesses] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchGame = async () => {
       try {
         const response = await axios.get(`https://hangman-serve-pwc-majd.onrender.com/game/${gameId}`);
         setGame(response.data);
+        console.log('API data fetched:', response.data); //  to log the fetched data
       } catch (error) {
         console.log(error);
       }
@@ -32,16 +32,10 @@ const Hangman = () => {
   }, [gameId]);
 
   useEffect(() => {
-    if (game && wrongGuesses >= game.remainingGuesses) {
+    if (game && game.word && game.word.split('').every((letter) => game.correctGuesses.includes(letter))) {
       setGameOver(true);
     }
-  }, [game, wrongGuesses]);
-
-  useEffect(() => {
-    if (game && game.word && game.word.split('').every((letter) => guesses.includes(letter))) {
-      setGameOver(true);
-    }
-  }, [game, guesses]);
+  }, [game]);
 
   const handleGuess = (event) => {
     const letter = event.target.value.toLowerCase();
@@ -50,26 +44,36 @@ const Hangman = () => {
 
   const handleGuessSubmit = async (event) => {
     event.preventDefault();
-    // Send the guess to the backend and update the game state
+
+    // Check if the guess is correct
+    const isCorrectGuess = game.word.includes(guess);
+    // Update the guesses state with the new guess
+    setGuesses([...guesses, guess]);
+
     try {
       const response = await axios.put(`https://hangman-serve-pwc-majd.onrender.com/game/${gameId}/guess`, { guess });
       const updatedGame = response.data;
-      setGuesses(updatedGame.guesses);
-      setWrongGuesses(updatedGame.incorrectGuesses.length);
+      setGame(updatedGame);
+      setGuess('');
       setGameOver(updatedGame.status !== 'in progress');
     } catch (error) {
       console.log(error);
     }
   };
 
+  const resetGame = () => {
+    setGuess('');
+    setGameOver(false);
+    navigate('/start');
+  };
+
   if (!game) {
     return <div>Loading...</div>;
   }
-
-  const { word, remainingGuesses } = game;
+  const { word, status, remainingGuesses, correctGuesses, incorrectGuesses } = game;
 
   const getHangmanImage = () => {
-    switch (wrongGuesses) {
+    switch (game.incorrectGuesses.length) {
       case 0:
         return img0;
       case 1:
@@ -87,37 +91,54 @@ const Hangman = () => {
     }
   };
 
-  const resetGame = () => {
-    setGuess('');
-    setGuesses([]);
-    setWrongGuesses(0);
-    setGameOver(false);
-  };
-
   return (
     <div className="hangman">
-      {gameOver ? (
-        <>
+      {status === 'lost' ? (
+        <div className="game-over">
           <p className="centered">You lose. The word was "{word}".</p>
+          
           <button onClick={resetGame}>Play again</button>
-        </>
+          <p className="centered">Player-Status: {status}</p>
+        </div>
       ) : (
         <div className="hangman-content">
-          <div className="hangman-image">
-            <img src={getHangmanImage()} alt="Hangman" />
-          </div>
+          {status !== 'won' && ( // Add this condition to hide the hangman image when status is 'won'
+            <div className="hangman-image">
+              <img src={getHangmanImage()} alt="Hangman" />
+            </div>
+          )}
           <div className="hangman-details">
-            <form onSubmit={handleGuessSubmit}>
-              <input type="text" value={guess} onChange={handleGuess} maxLength={1} />
-              <button type="submit">Guess</button>
-            </form>
-            <p>Word: {word}</p>
-            <p>Guesses: {guesses.join(', ')}</p>
-            {remainingGuesses !== null && (
-              <>
-                <p>You have {remainingGuesses} remaining guesses.</p>
-                <p>You only have {remainingGuesses - wrongGuesses} guesses left.</p>
-              </>
+            {status === 'won' ? (
+              <div className="game-won">
+                <p className="centered">You won!</p>
+                <p className="centered">The word was "{word}".</p>
+                
+                <button onClick={resetGame}>Play again</button>
+                <p className="centered">Player-Status: {status}</p>
+
+              </div>
+            ) : (
+              
+              <form onSubmit={handleGuessSubmit}>
+                <input type="text" value={guess} onChange={handleGuess} maxLength={1} />
+                <div className="word">
+                  {word.split('').map((letter, index) => (
+                    <span key={index} className="letter">
+                      {guesses.includes(letter) ? letter : '_'}
+                    </span>
+                  ))}
+                </div>
+                <button type="submit">Guess</button>
+                <div className="guesses">
+                  <h4>Incorrect Guesses:</h4>
+                  <h2> {incorrectGuesses.join(', ')}</h2>
+                  <br />
+                  <br />
+                  <p>-You have {remainingGuesses} remaining guesses.</p>
+                  <br />
+                  <p>-Status: {status}</p>
+                </div>
+              </form>
             )}
           </div>
         </div>

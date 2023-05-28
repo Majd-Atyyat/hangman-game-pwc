@@ -32,10 +32,10 @@ const StartGame = () => {
   };
 
   return (
-    <div>
-      {/* Display the start game UI */}
-      <label htmlFor="word-length">Please select word length:</label>
-      <select
+    <div className="selectContainer">
+    
+      <label htmlFor="word-length" className="centered">Please select word length:</label>
+      <select 
         id="word-length"
         value={wordLength}
         onChange={(e) => setWordLength(parseInt(e.target.value))}
