@@ -7,7 +7,8 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, setLogin] = useState(false);
-  const [token, setToken] = useState(""); // State to store the token
+  const [token, setToken] = useState("");
+  const [errors, setErrors] = useState({});
   const styles = {
     marginTop: '20px'
   };
@@ -15,11 +16,12 @@ function Login() {
     color: 'white'
   };
   
+  
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     const configuration = {
       method: "post",
       url: "https://hangman-serve-pwc-majd.onrender.com/login",
@@ -28,15 +30,27 @@ function Login() {
         password,
       },
     };
-
+  
     axios(configuration)
       .then((result) => {
-        const token = result.data.token;
-        localStorage.setItem('token', token); // Save token to local storage
-        setToken(token); // Update the token state
-        setLogin(true);
-        localStorage.setItem('isLogged', true); // Set the logged-in state
-        navigate("/start", { state: { token } });
+        const { message, email, token } = result.data;
+  
+        if (message === "Login Successful") {
+          localStorage.setItem('token', token);
+          setToken(token);
+          setLogin(true);
+          localStorage.setItem('isLogged', true);
+          navigate("/start", { state: { token } });
+        } else {
+          setErrors({ message });
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.data) {
+          setErrors({ message: error.response.data.message });
+        } else {
+          setErrors({ message: "An error occurred" });
+        }
       });
   };
 
@@ -68,6 +82,7 @@ function Login() {
           placeholder="Password"
         />
         <button type="submit">Log In</button>
+        {errors.message && <p className="error">{errors.message}</p>}
         <p style={styles}>
           Don't have an account yet?{" "}
           <Link to="/register">Register here</Link>
