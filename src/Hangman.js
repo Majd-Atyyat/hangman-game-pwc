@@ -32,6 +32,13 @@ const Hangman = () => {
     fetchGame();
   }, [gameId]);
 
+   // Add the logout function
+   const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('isLogged');
+    navigate('/');
+  };
+
   useEffect(() => {
     if (game && game.word && game.word.split('').every((letter) => game.correctGuesses.includes(letter))) {
       setGameOver(true);
@@ -148,7 +155,9 @@ const Hangman = () => {
                   <br />
                   <p>-Status: {status}</p>
                 </div>
+                <button onClick={logout}>Logout</button> {/* Add the logout button */}
               </form>
+              
             )}
           </div>
         </div>

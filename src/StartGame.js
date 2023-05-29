@@ -30,7 +30,12 @@ const StartGame = () => {
       console.log(error);
     }
   };
-
+// Add the logout function
+const logout = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('isLogged');
+  navigate('/');
+};
   return (
     <div className="box" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
     <h1 style={{ color: 'white', marginTop: '20px', background: 'black', padding: '10px' }}>Welcome to Hangman Game</h1>
@@ -47,6 +52,7 @@ const StartGame = () => {
       <option value="7">7</option>
     </select>
     <button onClick={handleStartGame}>Start Game</button>
+    <button onClick={logout}>Logout</button> {/* Add the logout button */}
   </div>
   );
 };
