@@ -65,3 +65,29 @@
     font-size: 300px; /* Adjust the font size as needed */
   }
   
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .share-buttons {
+    display: flex;
+   
+    align-items: center;
+    margin-left: 45%;
+  }
+  
+  .share-buttons > * {
+    font-size: 40px;
+    color: black;
+    transition: color 0.3s;
+    margin: 10px;
+  }
+  
+  .share-buttons > *:hover {
+    color: white;
+  }
+  
+  

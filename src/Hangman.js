@@ -8,7 +8,7 @@ import img3 from './images/3.jpg';
 import img4 from './images/4.jpg';
 import img5 from './images/5.jpg';
 import img6 from './images/6.jpg';
-
+import { FaTwitter, FaFacebook } from 'react-icons/fa';
 
 const Hangman = () => {
   const [game, setGame] = useState(null);
@@ -23,7 +23,7 @@ const Hangman = () => {
       try {
         const response = await axios.get(`https://hangman-serve-pwc-majd.onrender.com/game/${gameId}`);
         setGame(response.data);
-        console.log('API data fetched:', response.data); //  to log the fetched data
+        console.log('API data fetched:', response.data); // Log the fetched data
       } catch (error) {
         console.log(error);
       }
@@ -31,13 +31,6 @@ const Hangman = () => {
 
     fetchGame();
   }, [gameId]);
-
-   // Add the logout function
-   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('isLogged');
-    navigate('/');
-  };
 
   useEffect(() => {
     if (game && game.word && game.word.split('').every((letter) => game.correctGuesses.includes(letter))) {
@@ -75,9 +68,28 @@ const Hangman = () => {
     navigate('/start');
   };
 
+  const shareOnTwitter = () => {
+    const postTitle = 'I won the Hangman game!'; 
+    const postUrl = window.location.href; // Use the current page URL as the post URL
+
+    const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(postTitle)}&url=${encodeURIComponent(postUrl)}`;
+
+    window.open(shareUrl, '_blank');
+  };
+
+  const shareOnFacebook = () => {
+    const postTitle = 'I won the Hangman game!'; 
+    const postUrl = window.location.href; // Use the current page URL as the post URL
+
+    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`;
+
+    window.open(shareUrl, '_blank');
+  };
+
   if (!game) {
     return <div>Loading...</div>;
   }
+
   const { word, status, remainingGuesses, correctGuesses, incorrectGuesses } = game;
 
   const getHangmanImage = () => {
@@ -98,21 +110,22 @@ const Hangman = () => {
         return img6;
     }
   };
+
   const changeWordLength = () => {
     navigate('/start');
   };
+
   return (
     <div className="hangman">
       {status === 'lost' ? (
         <div className="game-over">
           <p className="centered">You lose. The word was "{word}".</p>
-          
           <button onClick={resetGame}>Play again</button>
-          <p className="centered">Player-Status: {status}</p>
+          <p className="centered">Player Status: {status}</p>
         </div>
       ) : (
         <div className="hangman-content">
-          {status !== 'won' && ( 
+          {status !== 'won' && (
             <div className="hangman-image">
               <img src={getHangmanImage()} alt="Hangman" />
               <button onClick={changeWordLength}>Change Word Length</button>
@@ -121,25 +134,23 @@ const Hangman = () => {
           <div className="hangman-details">
             {status === 'won' ? (
               <div className="game-won">
-                 
                 <p className="centered">You won!</p>
-                
-                
+                <p className="centered">Share with your friends!</p>
+                <div className="share-buttons">
+                  <FaTwitter onClick={shareOnTwitter} />
+                  <FaFacebook onClick={shareOnFacebook} />
+                </div>
                 <button onClick={resetGame}>Play again</button>
                 <p className="centered">The word was "{word}".</p>
-                <p className="centered">Player-Status: {status}</p>
-
+                <p className="centered">Player Status: {status}</p>
               </div>
             ) : (
-              
               <form onSubmit={handleGuessSubmit}>
                 <h1>Hangman</h1>
                 <br />
-            <p>Find the hidden word </p>
-           
-          
-            <br />
-            <p>You have {remainingGuesses} remaining guesses</p>
+                <p>Find the hidden word</p>
+                <br />
+                <p>You have {remainingGuesses} remaining guesses</p>
                 <input type="text" value={guess} onChange={handleGuess} maxLength={1} />
                 <div className="word">
                   {word.split('').map((letter, index) => (
@@ -151,16 +162,13 @@ const Hangman = () => {
                 <button type="submit">Guess</button>
                 <div className="guesses">
                   <h4>Incorrect Guesses:</h4>
-                  <h2> {incorrectGuesses.join(', ')}</h2>
+                  <h2>{incorrectGuesses.join(', ')}</h2>
                   <br />
                   <br />
-                  
                   <br />
                   <p>-Status: {status}</p>
                 </div>
-                <button onClick={logout}>Logout</button> {/* Add the logout button */}
               </form>
-              
             )}
           </div>
         </div>
