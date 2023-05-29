@@ -98,7 +98,9 @@ const Hangman = () => {
         return img6;
     }
   };
-
+  const changeWordLength = () => {
+    navigate('/start');
+  };
   return (
     <div className="hangman">
       {status === 'lost' ? (
@@ -113,6 +115,7 @@ const Hangman = () => {
           {status !== 'won' && ( 
             <div className="hangman-image">
               <img src={getHangmanImage()} alt="Hangman" />
+              <button onClick={changeWordLength}>Change Word Length</button>
             </div>
           )}
           <div className="hangman-details">
