@@ -78,13 +78,17 @@ const Hangman = () => {
   };
 
   const shareOnFacebook = () => {
-    const postTitle = 'I won the Hangman game!'; 
+    const postTitle = 'I won the Hangman game!';
     const postUrl = window.location.href; // Use the current page URL as the post URL
-
-    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`;
-
+  
+    const encodedTitle = encodeURIComponent(postTitle);
+    const encodedUrl = encodeURIComponent(postUrl);
+  
+    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedTitle}`;
+  
     window.open(shareUrl, '_blank');
   };
+  
 
   if (!game) {
     return <div>Loading...</div>;
