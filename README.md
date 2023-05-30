@@ -11,7 +11,10 @@ Once logged in, you will be redirected to the game page. Choose the length of th
 Start playing the Hangman game by guessing letters to find the hidden word. The game will provide feedback on correct and incorrect guesses.
 
 If you lose , you can reset the game by clicking the "play again" button.
+If you win, you can share your progress in the game and the game link on Facebook and Twitter.
 
+## Deployed game
+## https://hangman-game-pwc-majd.vercel.app/
 
 ## Acknowledgements
 The Hangman game is based on the classic word-guessing game.
@@ -19,10 +22,15 @@ The application uses Node.js, Express.js, and Mongoose for the backend.
 Frontend components and styles are inspired by various Hangman game implementations.
 
 ## Screenshots 
-<img width="960" alt="game1" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/85a5aec9-1533-4949-a5aa-bee36f915a91">
-<img width="960" alt="game2" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/898548ef-239a-4cc7-83d7-c3687bca6017">
-<img width="960" alt="login" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/22c4d4d3-429c-4600-9f10-af9ea2529b2e">
-<img width="960" alt="registerPNG" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/4c8fbcce-50f4-4856-92b4-da75adc27925">
-<img width="960" alt="startgame" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/7ac3d16d-f578-4ade-9656-b4c4149ae0f7">
-<img width="960" alt="losegame" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/df174260-d424-45ce-905e-001125349af4">
+<img width="960" alt="register" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/99f5317f-46d1-4499-a8fe-6279a0a4842f">
+<img width="960" alt="login" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/92ca4e95-c331-4a37-826d-da237b7363a1">
+<img width="960" alt="startGame" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/6c092428-5239-45dd-90df-aee958e4ec99">
+<img width="960" alt="game" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/c98951ba-c41b-4b8d-b2db-7f6e37c16cad">
+<img width="946" alt="won" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/fcc7d66c-7d41-411e-8bef-79173e738e09">
+<img width="959" alt="lostPNG" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/899c6a81-38f3-4dcd-80ce-4f7bf1ce18ea">
+<img width="751" alt="postShare" src="https://github.com/Majd-Atyyat/hangman-game-pwc/assets/94802719/2b7c43c9-5f0b-459b-859e-9de8204ccdb6">
+
+
+
+
 
